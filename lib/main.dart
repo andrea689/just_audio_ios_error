@@ -32,13 +32,12 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Sound Test'),
       ),
       body: Center(
-        child: FutureBuilder<http.Response>(
-          future: http.get(
-              Uri.parse('https://filebin.net/4i2f18nheahilka7/audio.json')),
+        child: FutureBuilder<Uint8List>(
+          future: http.readBytes(
+              Uri.parse('https://filebin.net/boffkapyqfg4licf/audio.wav')),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final dataBuffer = Uint8List.fromList(
-                  List<int>.from(jsonDecode(snapshot.data!.body)['bytes']));
+              final dataBuffer = snapshot.data!;
               return SoundPlayerUI(dataBuffer: dataBuffer);
             }
             return const CircularProgressIndicator();
@@ -48,6 +47,33 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+//class MyHomePage extends StatelessWidget {
+//  const MyHomePage({Key? key}) : super(key: key);
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: AppBar(
+//        title: const Text('Sound Test'),
+//      ),
+//      body: Center(
+//        child: FutureBuilder<http.Response>(
+//          future: http.get(
+//              Uri.parse('https://filebin.net/4i2f18nheahilka7/audio.json')),
+//          builder: (context, snapshot) {
+//            if (snapshot.hasData) {
+//              final dataBuffer = Uint8List.fromList(
+//                  List<int>.from(jsonDecode(snapshot.data!.body)['bytes']));
+//              return SoundPlayerUI(dataBuffer: dataBuffer);
+//            }
+//            return const CircularProgressIndicator();
+//          },
+//        ),
+//      ),
+//    );
+//  }
+//}
 
 class SoundPlayerUI extends StatefulWidget {
   final Uint8List dataBuffer;
